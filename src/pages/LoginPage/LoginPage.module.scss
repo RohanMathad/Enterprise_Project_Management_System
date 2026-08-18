@@ -6,20 +6,13 @@
 
 .leftPanel {
   flex: 1;
-  /* Base dark container */
   background-color: #020617;
-  
-  /* Three distinct gradient blobs: Purple, Turquoise, and Light Blue */
   background-image: 
     radial-gradient(circle at center, rgba(139, 92, 246, 0.35) 0%, transparent 50%),
     radial-gradient(circle at center, rgba(45, 212, 191, 0.3) 0%, transparent 50%),
     radial-gradient(circle at center, rgba(59, 130, 246, 0.35) 0%, transparent 55%);
-  
-  /* Oversize the background so the blobs have room to move */
   background-size: 200% 200%, 250% 250%, 200% 200%;
   background-repeat: no-repeat;
-  
-  /* Apply the flowing animation */
   animation: roamingBlobs 18s ease-in-out infinite alternate;
   color: white;
   padding: 48px;
@@ -132,29 +125,79 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
+/* Floating Label CSS Starts Here */
 .inputGroup {
-  input {
-    width: 100%;
-    padding: 16px 0;
-    border: none;
-    border-bottom: 1px solid #e1e4e8;
-    background: transparent;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.2s;
+  width: 100%;
+}
 
-    &::placeholder {
-      color: #999;
-    }
+.inputWrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+}
 
-    &:focus {
-      border-color: #1a1a1a;
-    }
+.floatingInput {
+  width: 100%;
+  padding: 20px 0 8px 0; /* Extra space on top for the floating label */
+  border: none;
+  border-bottom: 1px solid #e1e4e8;
+  background: transparent;
+  font-size: 14px;
+  color: #1a1a1a;
+  outline: none;
+  transition: border-color 0.2s;
+
+  /* We make the actual placeholder invisible so our custom label works */
+  &::placeholder {
+    color: transparent;
+  }
+
+  &:focus {
+    border-color: #1a1a1a;
   }
 }
+
+.floatingLabel {
+  position: absolute;
+  left: 0;
+  top: 16px; /* Centered position when empty */
+  color: #999;
+  font-size: 14px;
+  pointer-events: none;
+  transition: all 0.2s ease-out;
+}
+
+/* Move label up when input is focused OR when it has text (not showing placeholder) */
+.floatingInput:focus ~ .floatingLabel,
+.floatingInput:not(:placeholder-shown) ~ .floatingLabel {
+  top: 0px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #666;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 0;
+  bottom: 8px; /* Aligns visually with the input text */
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #1a1a1a;
+  }
+}
+/* Floating Label CSS Ends Here */
 
 .formOptions {
   display: flex;
@@ -187,53 +230,10 @@
   letter-spacing: 1px;
   cursor: pointer;
   transition: opacity 0.2s;
+  margin-top: 8px;
 
   &:hover {
     opacity: 0.9;
-  }
-}
-
-.divider {
-  text-align: center;
-  position: relative;
-  
-  &::before, &::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    width: 40%;
-    height: 1px;
-    background-color: #e1e4e8;
-  }
-
-  &::before { left: 0; }
-  &::after { right: 0; }
-
-  span {
-    background: white;
-    padding: 0 12px;
-    color: #999;
-    font-size: 12px;
-    font-weight: 600;
-  }
-}
-
-.googleButton {
-  background: white;
-  border: 1px solid #e1e4e8;
-  padding: 16px;
-  border-radius: 32px;
-  font-weight: 500;
-  color: #1a1a1a;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: #f7f9fa;
   }
 }
 
@@ -251,17 +251,22 @@
 }
 
 .legalFooter {
-  position: absolute;
-  bottom: 48px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 16px;
   font-size: 12px;
   color: #999;
+  margin-top: 24px;
 
   a {
     color: inherit;
     text-decoration: none;
+    transition: color 0.2s;
+    
+    &:hover {
+      color: #1a1a1a;
+    }
   }
 
   .dot {
@@ -272,26 +277,26 @@
 @keyframes roamingBlobs {
   0% {
     background-position: 
-      0% 0%,       /* Purple top-left */
-      100% 100%,   /* Turquoise bottom-right */
-      50% 50%;     /* Light Blue center */
+      0% 0%,       
+      100% 100%,   
+      50% 50%;     
   }
   33% {
     background-position: 
-      100% 0%,     /* Purple moves top-right */
-      0% 50%,      /* Turquoise moves left */
-      50% 100%;    /* Light Blue moves bottom */
+      100% 0%,     
+      0% 50%,      
+      50% 100%;    
   }
   66% {
     background-position: 
-      50% 100%,    /* Purple moves bottom-center */
-      100% 0%,     /* Turquoise moves top-right */
-      0% 0%;       /* Light Blue moves top-left */
+      50% 100%,    
+      100% 0%,     
+      0% 0%;       
   }
   100% {
     background-position: 
-      0% 100%,     /* Purple moves bottom-left */
-      0% 0%,       /* Turquoise moves top-left */
-      100% 50%;    /* Light Blue moves right */
+      0% 100%,     
+      0% 0%,       
+      100% 50%;    
   }
 }

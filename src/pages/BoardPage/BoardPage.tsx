@@ -190,7 +190,7 @@ const Column: React.FC<ColumnProps & { sortType: string; onSortChange: (type: st
           <TaskCard key={task.id} task={task} onStatusChange={onStatusChange} onEdit={onEdit} onDelete={onDelete} isViewer={isViewer} setAccessError={setAccessError} />
         ))}
       </div>
-      {title === 'In Progress' && <div className={styles.activeBar} />}
+      
     </div>
   );
 };
@@ -395,38 +395,41 @@ export const BoardPage: React.FC<BoardPageProps> = () => {
 
       <div className={styles.boardColumns}>
         <Column 
-          title="To Do" 
-          count={todoTasks.length} 
-          tasks={todoTasks} 
-          statusColor="#666" 
-          onStatusChange={handleStatusChange} 
-          onEdit={handleEditClick} 
+          title="To Do"
+          count={todoTasks.length}
+          tasks={todoTasks}
+          statusColor="#666"
+          onStatusChange={handleStatusChange}
+          onEdit={handleEditClick}
           onDelete={handleDeleteClick}
           sortType={sortConfig.TODO}
-          onSortChange={(type) => setSortConfig(prev => ({ ...prev, TODO: type }))}
-        />
+          onSortChange={(type) => setSortConfig(prev => ({ ...prev, TODO: type }))} isViewer={false} setAccessError={function (msg: string): void {
+            throw new Error('Function not implemented.');
+          } }        />
         <Column 
-          title="In Progress" 
-          count={inProgressTasks.length} 
-          tasks={inProgressTasks} 
-          statusColor="#3b82f6" 
-          onStatusChange={handleStatusChange} 
-          onEdit={handleEditClick} 
+          title="In Progress"
+          count={inProgressTasks.length}
+          tasks={inProgressTasks}
+          statusColor="#3b82f6"
+          onStatusChange={handleStatusChange}
+          onEdit={handleEditClick}
           onDelete={handleDeleteClick}
           sortType={sortConfig.IN_PROGRESS}
-          onSortChange={(type) => setSortConfig(prev => ({ ...prev, IN_PROGRESS: type }))}
-        />
+          onSortChange={(type) => setSortConfig(prev => ({ ...prev, IN_PROGRESS: type }))} isViewer={false} setAccessError={function (msg: string): void {
+            throw new Error('Function not implemented.');
+          } }        />
         <Column 
-          title="Done" 
-          count={doneTasks.length} 
-          tasks={doneTasks} 
-          statusColor="#22c55e" 
-          onStatusChange={handleStatusChange} 
-          onEdit={handleEditClick} 
+          title="Done"
+          count={doneTasks.length}
+          tasks={doneTasks}
+          statusColor="#22c55e"
+          onStatusChange={handleStatusChange}
+          onEdit={handleEditClick}
           onDelete={handleDeleteClick}
           sortType={sortConfig.DONE}
-          onSortChange={(type) => setSortConfig(prev => ({ ...prev, DONE: type }))}
-        />
+          onSortChange={(type) => setSortConfig(prev => ({ ...prev, DONE: type }))} isViewer={false} setAccessError={function (msg: string): void {
+            throw new Error('Function not implemented.');
+          } }        />
       </div>
 
       <NewTaskModal 

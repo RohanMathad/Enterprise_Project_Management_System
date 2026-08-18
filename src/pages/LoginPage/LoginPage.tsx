@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Eye, EyeOff } from 'lucide-react'; // Added icons for password toggle
 import { useAppDispatch } from '../../store/hooks';
 import { loginUser, registerUser } from '../../services/auth.service';
 import { Role } from '../../types/global.types';
@@ -16,7 +17,11 @@ export const LoginPage: React.FC<LoginPageProps> = () => {
   const [lastName, setLastName] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  
+  // New state for password visibility
+  const [showPassword, setShowPassword] = useState(false);
 
+  // Restored your EXACT original submission and navigation logic
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -61,7 +66,7 @@ export const LoginPage: React.FC<LoginPageProps> = () => {
         
         <div className={styles.statusFooter}>
           <span className={styles.line}></span>
-          <span className={styles.statusText}>SYSTEM ONLINE</span>
+          <span className={styles.statusText}>Developed by Rohan Mathad</span>
           <span className={styles.statusDot}></span>
         </div>
       </div>
@@ -79,44 +84,68 @@ export const LoginPage: React.FC<LoginPageProps> = () => {
             {isRegistering && (
               <>
                 <div className={styles.inputGroup}>
-                  <input 
-                    type="text" 
-                    placeholder="First name"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    required
-                  />
+                  <div className={styles.inputWrapper}>
+                    <input 
+                      type="text" 
+                      className={styles.floatingInput}
+                      placeholder=" "
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      required
+                    />
+                    <label className={styles.floatingLabel}>First name</label>
+                  </div>
                 </div>
                 <div className={styles.inputGroup}>
-                  <input 
-                    type="text" 
-                    placeholder="Last name"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                    required
-                  />
+                  <div className={styles.inputWrapper}>
+                    <input 
+                      type="text" 
+                      className={styles.floatingInput}
+                      placeholder=" "
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      required
+                    />
+                    <label className={styles.floatingLabel}>Last name</label>
+                  </div>
                 </div>
               </>
             )}
 
             <div className={styles.inputGroup}>
-              <input 
-                type="email" 
-                placeholder="Email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
+              <div className={styles.inputWrapper}>
+                <input 
+                  type="email" 
+                  className={styles.floatingInput}
+                  placeholder=" "
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <label className={styles.floatingLabel}>Email address</label>
+              </div>
             </div>
             
             <div className={styles.inputGroup}>
-              <input 
-                type="password" 
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <div className={styles.inputWrapper}>
+                <input 
+                  type={showPassword ? "text" : "password"} 
+                  className={styles.floatingInput}
+                  placeholder=" "
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <label className={styles.floatingLabel}>Password</label>
+                <button 
+                  type="button" 
+                  className={styles.passwordToggle}
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
             </div>
             
             {!isRegistering && (
@@ -132,15 +161,6 @@ export const LoginPage: React.FC<LoginPageProps> = () => {
             <button type="submit" className={styles.submitButton} disabled={loading}>
               {loading ? 'PROCESSING...' : (isRegistering ? 'SIGN UP' : 'SIGN IN')}
             </button>
-            
-            <div className={styles.divider}>
-              <span>OR</span>
-            </div>
-            
-            <button type="button" className={styles.googleButton}>
-              <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width={20} />
-              Continue with Google
-            </button>
           </form>
           
           <div className={styles.signupPrompt}>
@@ -149,12 +169,14 @@ export const LoginPage: React.FC<LoginPageProps> = () => {
               {isRegistering ? 'Sign in' : 'Sign up now'}
             </a>
           </div>
-        </div>
-        
-        <div className={styles.legalFooter}>
-          <a href="#">Privacy Policy</a>
-          <span className={styles.dot}>&bull;</span>
-          <a href="#">Terms of Service</a>
+
+          {/* Legal footer remains here exactly as requested in the layout updates */}
+          <div className={styles.legalFooter}>
+            <a href="#">Privacy Policy</a>
+            <span className={styles.dot}>&bull;</span>
+            <a href="#">Terms of Service</a>
+          </div>
+
         </div>
       </div>
     </div>
